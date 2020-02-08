@@ -23,6 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +36,10 @@ public class MainActivity extends AppCompatActivity
     private NoteRecyclerAdapter mNoteRecyclerAdapter;
 
     private AppBarConfiguration mAppBarConfiguration;
+    private RecyclerView mRecyclerItems;
+    private LinearLayoutManager mNotesLayoutManager;
+    private CourseRecyclerAdapter mCourseRecyclerAdapter;
+    private GridLayoutManager mCoursesLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +99,37 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initializeDisplayContent() {
-        final RecyclerView recyclerNotes = (RecyclerView) findViewById(R.id.list_items);
-        final LinearLayoutManager notesLayoutManager = new LinearLayoutManager(this);
-        recyclerNotes.setLayoutManager(notesLayoutManager);
+        mRecyclerItems = (RecyclerView) findViewById(R.id.list_items);
+        mNotesLayoutManager = new LinearLayoutManager(this);
+        mCoursesLayoutManager = new GridLayoutManager(this, 2);
 
         List<NoteInfo> notes = DataManager.getInstance().getNotes();
         mNoteRecyclerAdapter = new NoteRecyclerAdapter(this, notes);
-        recyclerNotes.setAdapter(mNoteRecyclerAdapter);
+
+        List<CourseInfo> courses = DataManager.getInstance().getCourses();
+        mCourseRecyclerAdapter = new CourseRecyclerAdapter(this, courses);
+
+        displayNotes();
+    }
+
+    private void displayNotes() {
+        mRecyclerItems.setLayoutManager(mNotesLayoutManager);
+        mRecyclerItems.setAdapter(mNoteRecyclerAdapter);
+
+        selectNavigationMenuItem(R.id.nav_notes);
+    }
+
+    private void selectNavigationMenuItem(int id) {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        menu.findItem(id).setChecked(true);
+    }
+
+    private void displayCourses() {
+        mRecyclerItems.setLayoutManager(mCoursesLayoutManager);
+        mRecyclerItems.setAdapter(mCourseRecyclerAdapter);
+
+        selectNavigationMenuItem(R.id.nav_courses);
     }
 
     @Override
@@ -122,9 +151,9 @@ public class MainActivity extends AppCompatActivity
         int id = menuItem.getItemId();
 
         if (id == R.id.nav_notes) {
-            handleSelection("Notes");
+            displayNotes();
         } else if (id == R.id.nav_courses) {
-            handleSelection("Courses");
+            displayCourses();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

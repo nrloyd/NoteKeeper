@@ -89,6 +89,30 @@ public class DataManager {
         mCourses.add(initializeCourse2());
         mCourses.add(initializeCourse3());
         mCourses.add(initializeCourse4());
+
+        /* //add extra courses in case you need to scroll
+        for(int i = 0; i < 20; i++){
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+            mCourses.add(initializeDummyCourse());
+        }*/
     }
 
     public void initializeExampleNotes() {
@@ -188,6 +212,11 @@ public class DataManager {
         modules.add(new ModuleInfo("java_core_m10", "Persisting Objects with Serialization"));
 
         return new CourseInfo("java_core", "Java Fundamentals: The Core Platform", modules);
+    }
+
+    private CourseInfo initializeDummyCourse(){
+        List<ModuleInfo> modules = new ArrayList<>();
+        return new CourseInfo("dummy", "whatever", modules);
     }
 
     public int createNewNote(CourseInfo course, String noteTitle, String noteText) {
